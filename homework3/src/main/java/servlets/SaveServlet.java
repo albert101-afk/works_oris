@@ -1,7 +1,7 @@
 package servlets;
 
 import DAO.DataBaseConfig;
-import DAO.UserDao;
+import DTO.UserDto;
 import entities.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -17,17 +17,17 @@ import java.util.List;
 
 @WebServlet("/save")
 public class SaveServlet extends HttpServlet {
-    private UserDao userDao;
+    private UserDto userDto;
 
     @Override
     public void init() throws ServletException {
         DataSource dataSource = DataBaseConfig.getDataSource();
-        this.userDao = new UserDao(dataSource);
+        this.userDto = new UserDto(dataSource);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int count = userDao.getCountOfUsers();
+        int count = userDto.getCountOfUsers();
         request.setAttribute("usersCount", count);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/save.jsp");
         requestDispatcher.forward(request, response);
@@ -50,7 +50,7 @@ public class SaveServlet extends HttpServlet {
             user.setRole(request.getParameter("role_" + i));
             users.add(user);
         }
-        userDao.insertUsers(users);
+        userDto.insertUsers(users);
         response.sendRedirect("success.jsp");
     }
 }

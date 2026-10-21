@@ -1,7 +1,7 @@
 package servlets;
 
 import DAO.DataBaseConfig;
-import DAO.UserDao;
+import DTO.UserDto;
 import entities.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,12 +16,12 @@ import java.util.List;
 
 @WebServlet("/search")
 public class SearchServlet extends HttpServlet {
-    UserDao userDao;
+    UserDto userDto;
 
     @Override
     public void init() throws ServletException {
         DataSource dataSource = DataBaseConfig.getDataSource();
-        this.userDao = new UserDao(dataSource);
+        this.userDto = new UserDto(dataSource);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,15 +34,15 @@ public class SearchServlet extends HttpServlet {
 
         if (request.getParameter("city") != null) {
             String city = request.getParameter("city");
-            users = userDao.getUsersByCity(city);
+            users = userDto.getUsersByCity(city);
         }
         if (request.getParameter("age") != null) {
             int age = Integer.parseInt(request.getParameter("age"));
-            users = userDao.getUsersByAge(age);
+            users = userDto.getUsersByAge(age);
         }
         if (request.getParameter("role") != null) {
             String role = request.getParameter("role");
-            users = userDao.getUsersByRole(role);
+            users = userDto.getUsersByRole(role);
         }
 
         HttpSession session = request.getSession();

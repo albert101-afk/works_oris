@@ -1,4 +1,4 @@
-package DAO;
+package DTO;
 
 import entities.User;
 import javax.sql.DataSource;
@@ -6,10 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao {
+public class UserDto implements UserDto_interface {
     private final DataSource dataSource;
 
-    public UserDao(DataSource dataSource) {
+    public UserDto(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
